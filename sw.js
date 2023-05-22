@@ -53,10 +53,15 @@ self.addEventListener('fetch', function (event) {
         return cachedResponse;
       }
       else {
-        return fetch(event.request).then((networkResponse) => {
-          cache.put(event.request, networkResponse.clone());
-          return networkResponse;
-        });
+        try{
+          return fetch(event.request).then((networkResponse) => {
+            cache.put(event.request, networkResponse.clone());
+            return networkResponse;
+          });
+        }
+        catch (e) {
+          console.log("network response error: ", e);
+        }
       } 
     });
   }));
